@@ -1,0 +1,6 @@
+## aws jenkins
+phpsa01 ansible_ssh_host=138.68.155.156
+
+[all:vars]
+ansible_user=root
+ansible_ssh_common_args='-F ssh1.cfg'

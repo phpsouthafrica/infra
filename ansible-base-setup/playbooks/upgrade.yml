@@ -1,0 +1,16 @@
+---
+- hosts: all
+  strategy: free
+  serial: 5
+  roles:
+    - programs_default
+    - programs_extra
+    - sysctl
+    - timezone
+    - profiles
+    - root_scripts
+    - cron
+    - ssh_users
+    - docker
+  become: true
+  gather_facts: true

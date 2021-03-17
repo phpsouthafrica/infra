@@ -1,0 +1,61 @@
+---
+
+- name: Stop docker if running
+  command: service docker stop
+  ignore_errors: yes
+
+- name: Start Docker
+  service:
+    name: "docker"
+    enabled: yes
+    state: stopped
+  ignore_errors: yes
+
+- name: create docker config directory
+  file:
+    path: /etc/docker
+    state: directory
+    mode: "u+rwX,a-rX"
+    owner: root
+    group: root
+
+# configure docker daemon json file
+- name: configure docker daemon.json
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: 0644
+    owner: root
+
+- name: Add Docker repository key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add docker repo for apt
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable'
+    #    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} edge'
+    #    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} test'
+    state: present
+    update_cache: yes
+
+- name: Insall docker for apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name:
+    - 'docker-ce'
+    - 'docker-compose'
+
+- name: Start Docker
+  service:
+    name: "docker"
+    enabled: yes
+    state: restarted
+  ignore_errors: yes
+
+#- name: Docker login
+#  command:  >
+#    docker login --username {{DOCKER_HUB_USERNAME}} --password {{DOCKER_HUB_PASS}}
+#  ignore_errors: true

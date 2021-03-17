@@ -1,0 +1,73 @@
+{
+  "variables": {
+    "do_api_token": "{{env `DIGITALOCEAN_TOKEN`}}",
+    "image_name": "ubuntu-20-10-x64",
+    "final_image_name": "docker-20-10-snapshot-{{timestamp}}",
+    "region_name": "lon1",
+    "size": "s-1vcpu-1gb"
+  },
+  "sensitive-variables": [
+    "do_api_token"
+  ],
+  "builders": [
+    {
+      "type": "digitalocean",
+      "api_token": "{{user `do_api_token`}}",
+      "ssh_username": "root",
+      "image": "{{user `image_name`}}",
+      "region": "{{user `region_name`}}",
+      "size": "{{user `size`}}",
+      "snapshot_name": "{{user `image_name`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "inline": [
+        "update-locale LANG=en_US.UTF-8",
+        "DEBIAN_FRONTEND=noninteractive apt-get update",
+        "DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y",
+        "DEBIAN_FRONTEND=noninteractive apt-get autoremove -y",
+        "DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common apt-transport-https",
+        "DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip python3 python3-apt ansible",
+        "DEBIAN_FRONTEND=noninteractive apt-get autoremove -y"
+      ],
+      "inline_shebang": "/bin/sh -x",
+      "type": "shell"
+    },
+    {
+      "type": "ansible-local",
+      "extra_arguments": [
+        "-e",
+        "'ansible_python_interpreter=/usr/bin/python3'"
+      ],
+      "playbook_file": "../ansible-base-setup/playbooks/packer.yml",
+      "playbook_dir": "../ansible-base-setup"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "scripts/cgroup-memory.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "expect_disconnect": true,
+      "pause_before": "60s",
+      "scripts": [
+        "scripts/cleanup_initial.sh",
+        "scripts/motd.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}

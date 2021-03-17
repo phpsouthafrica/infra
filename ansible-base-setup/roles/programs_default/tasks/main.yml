@@ -1,0 +1,175 @@
+---
+- name: Update on debian-based distros
+  apt:
+    upgrade: dist
+    cache_valid_time: 600
+    update_cache: yes
+
+- name: install ubuntu default packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name:
+      - autojump
+      - apt-transport-https
+      - bash-completion
+      - bat
+      - build-essential
+      - bzip2
+      - ca-certificates
+      - cachefilesd
+      - checkinstall
+      - cifs-utils
+      - cpufrequtils
+      - conntrack
+      - curl
+      - dnsutils
+      - easy-rsa
+      - ebtables
+      - ethtool
+      - exa
+      - exfat-fuse
+      - exfat-utils
+      - fail2ban
+      - fancontrol
+      - fping
+      - fzf
+      - git
+      - git-core
+      - haveged
+      - httpie
+      - htop
+      - hwinfo
+      - iftop
+      - indicator-cpufreq
+      - iputils-ping
+      - iptraf-ng
+      - iptables
+      - iputils-ping
+      - iotop
+      - jq
+      - ksmtuned
+      - lftp
+      - libssh2-1
+      - libssl-dev
+      - locales
+      - logrotate
+      - lsof
+      - man
+      - mailutils
+      - mc
+      - mtr
+      - mysql-client
+      - mydumper
+      - nano
+      - netcat
+      - net-tools
+      - nmap
+      - ntp
+      - ntpdate
+      - nvme-cli
+      - ocfs2-tools
+      - openvpn
+      - openssl
+      - openssh-server
+      - pbzip2
+      - pixz
+      - pkg-config
+      - postgresql-client
+      - postfix
+      - powertop
+      - prettyping
+      - procps
+      - psmisc
+      - pv
+      - rename
+      - resolvconf
+      - ripgrep
+      - rsync
+      - rsyslog
+      - rsyslog-elasticsearch
+      - screen
+      - smartmontools
+      - smbclient
+      - software-properties-common
+      - sosreport
+      - ssl-cert
+      - strace
+      - s-tui
+      - sudo
+      - supervisor
+      - sysdig
+      - sysstat
+      - tar
+      - telnet
+      - tinc
+      - thefuck
+      - tmux
+      - traceroute
+      - tree
+      - tuned
+      - tuned-utils
+      - tuned-utils-systemtap
+      - unattended-upgrades
+      - ubuntu-drivers-common
+      - ubuntu-restricted-addons
+      - unrar
+      - unzip
+      - vainfo
+      - vim
+      - wget
+      - whois
+      - xtables-addons-common
+      - xtables-addons-dkms
+      - xz-utils
+      - zip
+      - zsh
+      - zsh-syntax-highlighting
+
+
+#        tuned-adm profile throughput-performance
+
+- name: install ubuntu python3 packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name:
+      - python3
+      - python3-apt
+      - python3-dev
+      - python3-pip
+      - python3-setuptools
+      - python3-simplejson
+      - python3-software-properties
+
+- name: Remove nfs if not needed
+  apt:
+    purge: yes
+    state: absent
+    name:
+      - rpcbind
+      - nfs-common
+      - nfs-kernel-server
+  when: inventory_hostname not in groups['nfs']|default([])
+
+- name: Autoremove debian-based distros
+  apt:
+    autoremove: yes
+
+- name: Autoclean debian-based distros
+  apt:
+    autoclean: yes
+
+- name: Insure haveged started and autostarts
+  service:
+    name: haveged
+    state: restarted
+    enabled: yes
+
+- name: Install default python modules
+  pip:
+    name:
+      - python-keyczar
+      - boto3
+    extra_args: ' --upgrade '
+    executable: pip3

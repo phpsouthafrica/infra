@@ -1,0 +1,52 @@
+---
+
+- name: Clone oh-my-zsh repo
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: /root/.oh-my-zsh
+    force: yes
+    update: yes
+    depth: 1
+
+- name: deploy .zshrc
+  template:
+    src: files/zshrc.in
+    dest: /root/.zshrc
+    owner: root
+
+- name: Set zsh as default shell
+  user:
+    name: root
+    shell: /bin/zsh
+
+- name: add zsh-autosuggestions
+  git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions'
+    dest: /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    force: yes
+    update: yes
+    depth: 1
+
+- name: add zsh-syntax-highlighting.git
+  git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    dest: /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    force: yes
+    update: yes
+    depth: 1
+
+- name: add zsh-completions
+  git:
+    repo: 'https://github.com/zsh-users/zsh-completions'
+    dest: /root/.oh-my-zsh/custom/plugins/zsh-completions
+    force: yes
+    update: yes
+    depth: 1
+
+- name: Add sourcing /etc/profil.d
+  blockinfile:
+    path: /etc/zsh/zprofile
+    block: |
+      for file in /etc/profile.d/*sh; do
+        source "$file"
+      done

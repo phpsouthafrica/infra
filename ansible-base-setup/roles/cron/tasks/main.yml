@@ -1,0 +1,8 @@
+---
+- name: set MAILTO in crontab
+  cronvar:
+    name: "SHELL"
+    value: "/bin/bash"
+
+- name: set MAILTO in crontab
+  cronvar: name="MAILTO" value="server@phpsouthafrica.co.za"

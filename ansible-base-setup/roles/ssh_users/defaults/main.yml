@@ -1,0 +1,31 @@
+---
+ssh_key_dir: './ssh_keys/'
+
+users:
+  - name: blue
+    keys:
+      - blue@srv.pub
+  - name: outied
+    keys:
+      - outied@phobos.pub
+  - name: timhaak
+    keys:
+      - timhaak@macbook.pub
+      - timhaak@phone.pub
+      - timhaak@tablet.pub
+
+ssh_key_groups:
+  admin:
+    blue: true
+    outied: true
+    remote: true
+    timhaak: true
+
+del_users:
+  - username: placeholders
+
+general_users:
+  - username: remote
+    dir: /home/remote
+  - username: root
+    dir: /root

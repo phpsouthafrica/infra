@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  become_method: sudo
+  gather_facts: true
+  roles:
+    - programs_default
+    - programs_extra
+    - sysctl
+    - timezone
+    - profiles
+    - root_scripts
+    - cron
+    - ssh_users
+    - docker

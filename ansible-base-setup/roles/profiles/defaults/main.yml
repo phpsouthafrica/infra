@@ -1,0 +1,23 @@
+---
+profile_files_del: []
+
+profile_files:
+- docker.sh
+- generalAliases.sh
+
+bin_files_del: []
+
+bin_files: []
+
+dotfiles_del: []
+
+dotfiles:
+- tmux.conf
+
+rsyslog_files_del: []
+
+rsyslog_files: []
+
+logrotate_files_del: []
+
+logrotate_files: []

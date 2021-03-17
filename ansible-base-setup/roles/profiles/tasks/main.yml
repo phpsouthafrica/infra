@@ -1,0 +1,83 @@
+---
+- name: Remove files from profile.d
+  file: path="/etc/profile.d/{{ item }}" state=absent
+  with_items: "{{profile_files_del}}"
+  when: profile_files_del|length > 0
+
+- name: Add files to profile.d
+  copy:
+    src: "profile.d/{{ item }}"
+    dest: "/etc/profile.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0744
+  with_items: "{{profile_files}}"
+  when: profile_files|length > 0
+
+- name: Remove  /user/local/bin/ files
+  file:
+    path: "/usr/local/bin/{{ item }}"
+    state: absent
+  with_items: "{{bin_files_del}}"
+  when: bin_files_del|length > 0
+
+- name: Add file to /user/local/bin/
+  copy:
+    src: "bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items: "{{bin_files}}"
+  when: bin_files|length > 0
+
+- name: Remove dotfiles.d files
+  file:
+    path: "/root/.{{ item }}"
+    state: absent
+  with_items: "{{dotfiles_del}}"
+  when: dotfiles_del|length > 0
+
+- name: Add dotfiles to /root
+  copy:
+    src: "dotfiles/{{ item }}"
+    dest: "/root/.{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{dotfiles}}"
+  when: dotfiles|length > 0
+
+- name: Remove rsyslog.d files
+  file:
+    path: "/etc/rsyslog.d/{{ item }}"
+    state: absent
+  with_items: "{{rsyslog_files_del}}"
+  when: rsyslog_files_del|length > 0
+
+- name: Add rsyslog.d files
+  copy:
+    src: "rsyslog.d/{{ item }}"
+    dest: "/etc/rsyslog.d/.{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{rsyslog_files}}"
+  when: rsyslog_files|length > 0
+
+- name: Remove logrotate.d files
+  file:
+    path: "/etc/logrotate.d/{{ item }}"
+    state: absent
+  with_items: "{{logrotate_files_del}}"
+
+- name: Add logrotate.d files
+  copy:
+    src: "logrotate.d/{{ item }}"
+    dest: "/etc/logrotate.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{logrotate_files}}"
+
+

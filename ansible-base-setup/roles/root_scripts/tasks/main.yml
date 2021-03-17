@@ -1,0 +1,35 @@
+---
+- name: Sync docker directory to remote
+  synchronize:
+    src: docker
+    dest: /root/
+    delete: yes
+    recursive: yes
+
+- name: Sync scripts directory to remote
+  synchronize:
+    src: scripts
+    dest: /root/
+    delete: yes
+    recursive: yes
+
+- name: Create a portainer dir if it does not exist
+  file:
+    path: /docker/portainer/data
+    state: directory
+    mode: '0755'
+
+- name: Create a ltencrypt dir if it does not exist
+  file:
+    path: /root/ltencrypt
+    state: directory
+    mode: '0755'
+
+- name: ensure ltencrypt/acme.json file exists
+  copy:
+    content: ""
+    dest: /root/ltencrypt/acme.json
+    force: no
+    group: root
+    owner: root
+    mode: 0600

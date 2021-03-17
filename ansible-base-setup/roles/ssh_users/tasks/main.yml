@@ -1,0 +1,159 @@
+---
+
+- name: Add port 24
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertbefore: "^Match user remote"
+    regexp: "^Port 24"
+    line: "Port 24"
+    state: present
+
+- name: Add port 22
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertbefore: "^Match user remote"
+    regexp: "^Port 22"
+    line: "Port 22"
+    state: present
+
+- name: Disallow SSH password authentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^PasswordAuthentication"
+    line="PasswordAuthentication no"
+    state=present
+
+- name: Disallow SSH Challenge Response uthentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^ChallengeResponseAuthentication"
+    line="ChallengeResponseAuthentication no"
+    state=present
+
+- name: Disallow SSH DNS lookups
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^UseDNS"
+    line: "UseDNS no"
+    state: present
+
+- name: Set ssh timeout time
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "ClientAliveInterval"
+    line: "ClientAliveInterval 600"
+    state: present
+
+- name: Set ssh alive count for timeout
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "ClientAliveCountMax"
+    line: "ClientAliveCountMax 3"
+    state: present
+
+- name: Set ssh to only use Protocol 2
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "Protocol"
+    line: "Protocol 2"
+    state: present
+
+- name: Disallow SSH GSS API authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^GSSAPIAuthentication"
+    line: "GSSAPIAuthentication no"
+    state: present
+
+- name: Make sure docker group exists
+  group:
+    name: docker
+    state: present
+
+- name: Add user remote
+  user:
+    name: remote
+    state: present
+    groups: docker
+    shell: /bin/bash
+
+- name: Creating keyfile for root which locked
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', ssh_key_dir ~ item.1 ) }}"
+  with_subelements:
+    - "{{ users }}"
+    - keys
+  when: (ssh_key_groups.admin[item.0.name] is defined)
+  register: remote_authorised
+
+- name: Creating temp keyfile with only keys we want for general servers
+  authorized_key:
+    user: remote
+    key: "{{ lookup('file', ssh_key_dir ~ item.1 ) }}"
+    path: "/home/remote/.ssh/temp_key_file"
+  with_subelements:
+    - "{{ users }}"
+    - keys
+  when: (ssh_key_groups.admin[item.0.name] is defined)
+  register: remote_authorised
+
+- name: Add SSH public key to user remote
+  command: mv -f /home/remote/.ssh/temp_key_file /home/remote/.ssh/authorized_keys
+
+- name: Setting permissions remote
+  file:
+    path: "{{ item.dir }}"
+    owner: "{{ item.username }}"
+    group: "{{ item.username }}"
+    recurse: yes
+  with_items: "{{ general_users }}"
+
+- name: Create sudoers files for remote users
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/01remote"
+    owner: root
+    group: root
+    mode: 0440
+  with_items:
+    - { name: remote }
+
+- name: Add other users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    shell: /bin/bash
+  with_items: "{{ users }} "
+
+- name: Adding user keys
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ lookup('file', ssh_key_dir ~ item.1 ) }}"
+  with_subelements:
+    - "{{ users }}"
+    - keys
+
+- name: Remove other users
+  user:
+    name: "{{ item.username }}"
+    state: absent
+    remove: yes
+  with_items: "{{ del_users }}"
+
+- name: Remove sudoers.d files
+  file:
+    path: "/etc/sudoers.d/01{{ item.username }}"
+    state: absent
+  with_items: "{{ del_users }}"
+
+- name: Create sudoers files for admin users
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/01{{ item.name }}"
+    owner: root
+    group: root
+    mode: 0440
+  with_items:
+    - "{{ users }}"
+  when: ssh_key_groups.admin[item.name] is defined

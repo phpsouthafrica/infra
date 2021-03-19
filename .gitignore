@@ -88,11 +88,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-/.terraform/
-/terraform.tfstate
-/terraform.tfstate.backup
+#/.terraform/
+#/terraform.tfstate
+#/terraform.tfstate.backup
 /.idea/
-.terraform/
+#.terraform/
 temp
 
 *.retry

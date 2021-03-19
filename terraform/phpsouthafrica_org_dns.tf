@@ -19,30 +19,30 @@ resource "digitalocean_record" "MX-aspmx2-dns-phpsouthafrica-org" {
   priority = "50"
   value = "fb.mail.gandi.net."
 }
-resource "digitalocean_record" "MX-alt2-dns-phpsouthafrica-org" {
-  domain = digitalocean_domain.dns-phpsouthafrica-org.name
-  name     = "@"
-  type = "MX"
-  ttl = var.dns_mx_ttl
-  priority = "20"
-  value = "alt2.aspmx.l.google.com."
-}
-resource "digitalocean_record" "MX-dns-phpsouthafrica-org" {
-  domain = digitalocean_domain.dns-phpsouthafrica-org.name
-  name     = "@"
-  type = "MX"
-  ttl = var.dns_mx_ttl
-  priority = "20"
-  value = "alt1.aspmx.l.google.com."
-}
-resource "digitalocean_record" "MX-aspmx-dns-phpsouthafrica-org" {
-  domain = digitalocean_domain.dns-phpsouthafrica-org.name
-  name     = "@"
-  type = "MX"
-  ttl = var.dns_mx_ttl
-  priority = "10"
-  value = "aspmx.l.google.com."
-}
+//resource "digitalocean_record" "MX-alt2-dns-phpsouthafrica-org" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+//  name     = "@"
+//  type = "MX"
+//  ttl = var.dns_mx_ttl
+//  priority = "20"
+//  value = "alt2.aspmx.l.google.com."
+//}
+//resource "digitalocean_record" "MX-dns-phpsouthafrica-org" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+//  name     = "@"
+//  type = "MX"
+//  ttl = var.dns_mx_ttl
+//  priority = "20"
+//  value = "alt1.aspmx.l.google.com."
+//}
+//resource "digitalocean_record" "MX-aspmx-dns-phpsouthafrica-org" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+//  name     = "@"
+//  type = "MX"
+//  ttl = var.dns_mx_ttl
+//  priority = "10"
+//  value = "aspmx.l.google.com."
+//}
 
 //// TXT
 //resource "digitalocean_record" "TXT-dmarc-dns-phpsouthafrica-org" {
@@ -88,6 +88,14 @@ resource "digitalocean_record" "A-dev-dns-phpsouthafrica-org" {
 resource "digitalocean_record" "A-dns-phpsouthafrica-org" {
   domain = digitalocean_domain.dns-phpsouthafrica-org.name
   name = "@"
+  type = "A"
+  ttl = var.dns_ttl
+  value = "185.199.108.153"
+}
+
+resource "digitalocean_record" "A-www-dns-phpsouthafrica-org" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "www"
   type = "A"
   ttl = var.dns_ttl
   value = "185.199.108.153"

@@ -90,7 +90,7 @@ resource "digitalocean_record" "A-dns-phpsouthafrica-co-za" {
   name = "@"
   type = "A"
   ttl = var.dns_ttl
-  value = digitalocean_droplet.web.ipv4_address
+  value = "185.199.108.153"
 }
 
 resource "digitalocean_record" "A-www-dns-phpsouthafrica-co-za" {
@@ -98,7 +98,7 @@ resource "digitalocean_record" "A-www-dns-phpsouthafrica-co-za" {
   name = "www"
   type = "A"
   ttl = var.dns_ttl
-  value = digitalocean_droplet.web.ipv4_address
+  value = "185.199.108.153"
 }
 
 resource "digitalocean_record" "AAAA-dns-phpsouthafrica-co-za" {

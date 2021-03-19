@@ -7,8 +7,8 @@ resource "digitalocean_record" "MX-aspmx3-dns-phpsouthafrica-org" {
   name     = "@"
   type = "MX"
   ttl = var.dns_mx_ttl
-  priority = "30"
-  value = "aspmx3.googlemail.com."
+  priority = "10"
+  value = "spool.mail.gandi.net."
 }
 
 resource "digitalocean_record" "MX-aspmx2-dns-phpsouthafrica-org" {
@@ -16,8 +16,8 @@ resource "digitalocean_record" "MX-aspmx2-dns-phpsouthafrica-org" {
   name     = "@"
   type = "MX"
   ttl = var.dns_mx_ttl
-  priority = "30"
-  value = "aspmx2.googlemail.com."
+  priority = "50"
+  value = "fb.mail.gandi.net."
 }
 resource "digitalocean_record" "MX-alt2-dns-phpsouthafrica-org" {
   domain = digitalocean_domain.dns-phpsouthafrica-org.name
@@ -53,13 +53,13 @@ resource "digitalocean_record" "MX-aspmx-dns-phpsouthafrica-org" {
 //  value = "v=DMARC1; p=quarantine; pct=100; sp=none"
 //}
 //
-//resource "digitalocean_record" "TXT-dns-phpsouthafrica-org_spf1" {
-//  domain = digitalocean_domain.dns-phpsouthafrica-org.name
-//  name     = "@"
-//  type = "TXT"
-//  ttl = var.dns_mx_ttl
-//  value = "v=spf1 ip4:196.50.196.145 include:_spf.google.com ~all"
-//}
+resource "digitalocean_record" "TXT-dns-phpsouthafrica-org_spf1" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name     = "@"
+  type = "TXT"
+  ttl = var.dns_mx_ttl
+  value = "v=spf1 include:_mailcust.gandi.net ?all"
+}
 //
 //resource "digitalocean_record" "TXT-dns-phpsouthafrica-org-google-site-verification" {
 //  domain = digitalocean_domain.dns-phpsouthafrica-org.name
@@ -90,7 +90,7 @@ resource "digitalocean_record" "A-dns-phpsouthafrica-org" {
   name = "@"
   type = "A"
   ttl = var.dns_ttl
-  value = "127.0.0.1"
+  value = "185.199.108.153"
 }
 
 data "digitalocean_records" "NS-dns-phpsouthafrica-org" {

@@ -6,8 +6,8 @@ variable region {
   default = "lon1"
 }
 
-variable image_name {
-  default = "ubuntu-20-10-x64"
+variable base_snapshot_name {
+  default = "phpsa-ubuntu-20-10-x64-lon1-20210324141529"
 }
 
 variable image_id {

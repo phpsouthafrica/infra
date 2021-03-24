@@ -24,5 +24,5 @@ variable "environment" {
 }
 
 variable "server_name" {
-  default = "web"
+  default = "web01.phpsouthafrica.co.za"
 }

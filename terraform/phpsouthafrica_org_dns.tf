@@ -101,6 +101,23 @@ resource "digitalocean_record" "A-www-dns-phpsouthafrica-org" {
   value = "185.199.108.153"
 }
 
+resource "digitalocean_record" "A-web01-dns-phpsouthafrica-org" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "web01"
+  type = "A"
+  ttl = var.dns_ttl
+  value = digitalocean_droplet.web.ipv4_address
+}
+
+resource "digitalocean_record" "AAAA-web01-dns-phpsouthafrica-org" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "web01"
+  type = "AAAA"
+  ttl = var.dns_ttl
+  value = digitalocean_droplet.web.ipv6_address
+}
+
+
 data "digitalocean_records" "NS-dns-phpsouthafrica-org" {
   domain = digitalocean_domain.dns-phpsouthafrica-org.name
   filter {

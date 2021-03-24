@@ -135,6 +135,22 @@ resource "digitalocean_record" "A-www-dns-phpsouthafrica-co-za" {
 //  value = digitalocean_droplet.web.ipv6_address
 //}
 
+resource "digitalocean_record" "A-web01-dns-phpsouthafrica-co-za" {
+  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
+  name = "web01"
+  type = "A"
+  ttl = var.dns_ttl
+  value = digitalocean_droplet.web.ipv4_address
+}
+
+resource "digitalocean_record" "AAAA-web01-dns-phpsouthafrica-co-za" {
+  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
+  name = "web01"
+  type = "AAAA"
+  ttl = var.dns_ttl
+  value = digitalocean_droplet.web.ipv6_address
+}
+
 data "digitalocean_records" "NS-dns-phpsouthafrica-co-za" {
   domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
   filter {

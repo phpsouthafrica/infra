@@ -12,7 +12,7 @@ variable "dns_domain_phpza_com" {
   default = "phpza.com"
 }
 
-variable "dns_domain_phpsouthafrica_org" {
+variable "dns_domain_phpafrica_com" {
   description = "phpafrica.com Domains for php meetup"
   default = "phpafrica.com"
 }

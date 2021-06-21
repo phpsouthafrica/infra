@@ -5,9 +5,15 @@ users:
   - name: blue
     keys:
       - blue@srv.pub
+  - name: mostertb
+    keys:
+      - mostertb@rijndael.pub
   - name: outied
     keys:
       - outied@phobos.pub
+  - name: thecapegreek
+    keys:
+      - thecapegreek@landfall.pub
   - name: timhaak
     keys:
       - timhaak@macbook.pub
@@ -17,8 +23,10 @@ users:
 ssh_key_groups:
   admin:
     blue: true
+    mostertb: true
     outied: true
     remote: true
+    thecapegreek: true
     timhaak: true
 
 del_users:

@@ -1,0 +1,104 @@
+version: '3.8'
+x-default-opts:
+  &default-opts
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+services:
+  mysql:
+    image: mariadb
+    hostname: mysql.server
+    environment:
+      - "TZ=${TIME_ZONE}"
+      - "MYSQL_ROOT_PASSWORD=${WP_MYSQL_PROD_MASTER_ROOT_PASSWORD}"
+      - "MYSQL_USER=${WP_MYSQL_PROD_MASTER_USER}"
+      - "MYSQL_PASSWORD=${WP_MYSQL_PROD_MASTER_PASSWORD}"
+      - "MYSQL_DATABASE=${WP_MYSQL_PROD_MASTER_DB}"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+      labels:
+        - "com.ouroboros.enable=true"
+        - "traefik.enable=false"
+#    command: [
+#      "mysqld",
+#      "--default-authentication-plugin=mysql_native_password",
+#      "--server-id=${WP_MYSQL_PROD_MASTER_SERVER_ID}",
+#      "--log-bin=/var/lib/mysql/mysql-bin.log",
+#      "--relay-log=/var/lib/mysql/mysql-relay.log",
+#      "--innodb-log-checksums=1",
+#      "--performance-schema=1",
+#      "--max-allowed-packet=256M",
+#      "--wait-timeout=600",
+#      "--interactive-timeout=600",
+#      "--connect-timeout=100",
+#      "--net-read-timeout=600",
+#      "--net-write-timeout=600",
+#      "--innodb-lock-wait-timeout=${WP_MYSQL_PROD_MASTER_LOCK_WAIT_TIMEOUT}",
+#      "--lock-wait-timeout=${WP_MYSQL_PROD_MASTER_LOCK_WAIT_TIMEOUT}",
+#      "--max-connections=100",
+#      "--thread-stack=8M",
+#      "--thread-cache-size=64",
+#      "--sync-binlog=1",
+#      "--character-set-server=utf8mb4",
+#      "--collation-server=utf8mb4_unicode_ci",
+#      "--skip-external-locking",
+#      "--skip-host-cache",
+#      "--general-log-file=/var/lib/mysql/mysql-general.log",
+#      "--general-log=0",
+#      "--log-error-verbosity=2",
+#      "--log-error=/var/lib/mysql/mysql-error.log",
+#      "--slow-query-log=1",
+#      "--log-slow-admin-statements=1",
+#      "--min-examined-row-limit=1000",
+#      "--log-queries-not-using-indexes=1",
+#      "--long-query-time=2",
+#      "--slow-query-log-file=/var/lib/mysql/mysql-slow.log",
+#      "--tmp-table-size=32M",
+#      "--max-heap-table-size=32M",
+#      "--table-open-cache=8164",
+#      "--join-buffer-size=32M",
+#      "--innodb-buffer-pool-size=${WP_MYSQL_PROD_MASTER_INNODB_BUFFER_POOL_SIZE}",
+#      "--key-buffer-size=2G",
+#      "--read-buffer-size=8200",
+#      "--read-rnd-buffer-size=8200",
+#      "--sort-buffer-size=2M",
+#      "--transaction-isolation=READ-COMMITTED",
+#      "--innodb-file-per-table=1",
+#      "--innodb-buffer-pool-instances=50",
+#      "--innodb-thread-concurrency=0",
+#      "--innodb-write-io-threads=64",
+#      "--innodb-read-io-threads=64",
+#      "--innodb-log-file-size=1G",
+#      "--innodb-log-buffer-size=16M",
+#      "--innodb-log-files-in-group=8",
+#      "--innodb-buffer-pool-chunk-size=128M",
+#      "--innodb-flush-log-at-trx-commit=1",
+#      "--innodb-io-capacity=20000",
+#      "--innodb-io-capacity-max=40000",
+#      "--innodb-flush-method=O_DIRECT",
+#      "--innodb-buffer-pool-dump-at-shutdown=1",
+#      "--innodb-buffer-pool-load-at-startup=1",
+#      "--innodb-flush-neighbors=0",
+#      "--innodb-page-cleaners=8",
+#      "--innodb-temp-data-file-path=ibtmp1:100M:autoextend:max:50G"
+#    ]
+    volumes:
+      - "${WP_MYSQL_PROD_MASTER_VOLUME_MYSQL}:/var/lib/mysql:delegated"
+      - "${WP_MYSQL_PROD_MASTER_VOLUME_MYSQL_BACKUP}:/backup:delegated"
+    networks:
+      server-net:
+        aliases:
+          - "mysql.server"
+          - "${WP_MYSQL_PROD_MASTER_DB_HOST}"
+networks:
+  server-net:
+    attachable: true
+    external: true
+    driver: overlay
+  traefik-net:
+    attachable: true
+    external: true
+    driver: overlay

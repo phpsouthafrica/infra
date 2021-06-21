@@ -6,7 +6,7 @@ variable region {
 }
 
 variable base_snapshot_name {
-  default = "phpsa-ubuntu-20-10-x64-lon1-20210324141529"
+  default = "phpsa-ubuntu-20-10-x64-lon1-20210621115746"
 }
 
 variable image_id {
@@ -23,5 +23,5 @@ variable "environment" {
 }
 
 variable "server_name" {
-  default = "web01.phpsouthafrica.co.za"
+  default = "web01.phpza.com"
 }

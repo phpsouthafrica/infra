@@ -61,7 +61,7 @@ resource "cloudflare_zone_settings_override" "zone-settings-override-phpafrica-c
 
 resource "cloudflare_record" "MX-aspmx3-dns-domain-phpafrica-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
-  name = "MX-aspmx3-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -70,7 +70,7 @@ resource "cloudflare_record" "MX-aspmx3-dns-domain-phpafrica-com" {
 }
 resource "cloudflare_record" "MX-aspmx2-dns-domain-phpafrica-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
-  name = "MX-aspmx2-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -79,7 +79,7 @@ resource "cloudflare_record" "MX-aspmx2-dns-domain-phpafrica-com" {
 }
 resource "cloudflare_record" "MX-alt2-dns-domain-phpafrica-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
-  name = "MX-alt2-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -88,7 +88,7 @@ resource "cloudflare_record" "MX-alt2-dns-domain-phpafrica-com" {
 }
 resource "cloudflare_record" "MX-alt1-dns-domain-phpafrica-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
-  name = "MX-alt1-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -97,7 +97,7 @@ resource "cloudflare_record" "MX-alt1-dns-domain-phpafrica-com" {
 }
 resource "cloudflare_record" "MX-aspmx-dns-domain-phpafrica-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
-  name = "MX-aspmx-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -133,11 +133,29 @@ resource "cloudflare_record" "A-star-dev-dns-domain-phpafrica-com" {
   value = "127.0.0.1"
 }
 
-//resource "cloudflare_record" "TXT-dns-domain-google-site-verification-phpafrica-com" {
-//  zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
-//  name = cloudflare_zone.dns-domain-phpafrica-com.zone
-//  type = "TXT"
-//  ttl = var.dns_site_verification_ttl
-//  proxied = "false"
-//  value = "google-site-verification=qx_RLH8nXhczOxbmh8CCGihjqzaUq-tyWNBUsb8B84I"
-//}
+resource "cloudflare_record" "TXT-dns-domain-spf1-phpafrica-com" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
+  name = ""
+  type = "TXT"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "v=spf1 ip4:196.50.196.145 include:_spf.google.com ~all"
+}
+
+resource "cloudflare_record" "TXT-dns-domain-dkim1-phpafrica-com" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
+  name = "google._domainkey"
+  type = "TXT"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiw01IbmFbdYcHqNKOSAh2hJJoWPImPMNXAVyhaDReZWASbCbTfAEePCJcCAePXSolsbKkgoimd+gr2WLaBuh0Qup2B4PYpzumaxR6U4Oi5vo5gVQBVmXvUwGiODAfd/ZcRakjT2WmUcqYDXbyA6bNQw/K+BGv9VoSRPdVZJxxupUPQfvNgmR83LInMRzcYXb1nEWO4gMMRmU5MBz5AdS37D+1vXq604Taldpk3NuHnNDcIO67FdSGy1CUqUkBVTjwsN8/d0o7L+sdLNrV+b7Knv2SJUBlEmmyx46T4iM6+aXkjUr3TQZeg+QC/TwLJFTKNoDKm0DxCw+cFVpYziDYQIDAQAB"
+}
+
+resource "cloudflare_record" "TXT-dns-domain-google-site-verification-phpafrica-com" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpafrica-com.zones[0], "id")
+  name = ""
+  type = "TXT"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "google-site-verification=kd_aioKIdLRqDGqKcBfCctPpI6ZOTZ_KNPVLhgRKb3E"
+}

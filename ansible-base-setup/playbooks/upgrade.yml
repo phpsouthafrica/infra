@@ -1,8 +1,11 @@
 ---
 - hosts: all
+  become: true
+  gather_facts: true
   strategy: free
   serial: 5
   roles:
+    - swap
     - programs_default
     - programs_extra
     - sysctl
@@ -12,5 +15,4 @@
     - cron
     - ssh_users
     - docker
-  become: true
-  gather_facts: true
+    - digital_ocean_metrics

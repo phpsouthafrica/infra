@@ -1,0 +1,59 @@
+version: '3.8'
+x-default-opts:
+  &default-opts
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+services:
+  wordpress-mbt:
+    image: wordpress
+    hostname: phpza-wp.server
+    environment:
+      - "TZ=${TIME_ZONE}"
+      - "WORDPRESS_DB_HOST: ${WP_MYSQL_PROD_MASTER_DB_HOST}"
+      - "WORDPRESS_DB_USER: ${WP_MYSQL_PROD_MASTER_USER}"
+      - "WORDPRESS_DB_PASSWORD: ${WP_MYSQL_PROD_MASTER_PASSWORD}"
+      - "WORDPRESS_DB_NAME: ${WP_MYSQL_PROD_MASTER_DB}"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+      labels:
+        - "com.ouroboros.enable=true"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
+        - "traefik.http.routers.phpza.rule=Host(`${PRIMARY_DOMAIN}`) || Host(`www.${PRIMARY_DOMAIN}`) || Host(`${SECONDARY_PRIMARY_DOMAIN}`) || Host(`www.${SECONDARY_PRIMARY_DOMAIN}`)"
+        - "traefik.http.routers.phpza.entrypoints=websecure"
+        - "traefik.http.services.phpza.loadbalancer.server.port=80"
+        - "traefik.http.services.phpza.loadbalancer.passhostheader=true"
+        - "traefik.http.routers.phpza.tls=true"
+        - "traefik.http.routers.phpza.tls.certresolver=le"
+        - "traefik.http.routers.phpza.middlewares=phpza-redirectregex, phpafrica-redirectregex, compress-phpza"
+        - "traefik.http.middlewares.phpza-redirectregex.redirectregex.regex=^https://www.${PRIMARY_DOMAIN}/(.*)"
+        - "traefik.http.middlewares.phpza-redirectregex.redirectregex.replacement=https://${PRIMARY_DOMAIN}/$${1}"
+        - "traefik.http.middlewares.phpza-redirectregex.redirectregex.permanent=true"
+        - "traefik.http.middlewares.compress-phpza.compress=true"
+        - "traefik.http.middlewares.phpafrica-redirectregex.redirectregex.regex=^.*phpafrica.com(.*)"
+        - "traefik.http.middlewares.phpafrica-redirectregex.redirectregex.replacement=https://${PRIMARY_DOMAIN}/$${1}"
+        - "traefik.http.middlewares.phpafrica-redirectregex.redirectregex.permanent=true"
+    volumes:
+      - "${WP_PHPZA_VOLUME}:/var/www/html"
+    networks:
+      server-net:
+        aliases:
+          - phpza-wp
+          - phpza-wp.server
+      traefik-net:
+        aliases:
+          - phpza-wp
+          - phpza-wp.server
+networks:
+  server-net:
+    attachable: true
+    external: true
+    driver: overlay
+  traefik-net:
+    attachable: true
+    external: true
+    driver: overlay

@@ -1,0 +1,18 @@
+---
+- name: Add DO Sonar Agent repository key
+  apt_key:
+    url: https://repos.insights.digitalocean.com/sonar-agent.asc
+    state: present
+
+- name: Add DO Metrics ppa
+  apt_repository:
+    repo: 'deb https://repos.insights.digitalocean.com/apt/do-agent/ main main'
+    state: present
+    update_cache: yes
+
+- name: Insall do-agent for apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name:
+      - 'do-agent'

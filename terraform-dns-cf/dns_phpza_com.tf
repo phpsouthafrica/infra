@@ -61,7 +61,7 @@ resource "cloudflare_zone_settings_override" "zone-settings-override-phpza-com" 
 
 resource "cloudflare_record" "MX-aspmx3-dns-domain-phpza-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
-  name = "MX-aspmx3-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -70,7 +70,7 @@ resource "cloudflare_record" "MX-aspmx3-dns-domain-phpza-com" {
 }
 resource "cloudflare_record" "MX-aspmx2-dns-domain-phpza-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
-  name = "MX-aspmx2-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -79,7 +79,7 @@ resource "cloudflare_record" "MX-aspmx2-dns-domain-phpza-com" {
 }
 resource "cloudflare_record" "MX-alt2-dns-domain-phpza-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
-  name = "MX-alt2-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -88,7 +88,7 @@ resource "cloudflare_record" "MX-alt2-dns-domain-phpza-com" {
 }
 resource "cloudflare_record" "MX-alt1-dns-domain-phpza-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
-  name = "MX-alt1-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -97,7 +97,7 @@ resource "cloudflare_record" "MX-alt1-dns-domain-phpza-com" {
 }
 resource "cloudflare_record" "MX-aspmx-dns-domain-phpza-com" {
   zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
-  name = "MX-aspmx-dns-domain"
+  name = ""
   type = "MX"
   ttl = var.dns_mx_ttl
   proxied = "false"
@@ -133,11 +133,29 @@ resource "cloudflare_record" "A-star-dev-dns-domain-phpza-com" {
   value = "127.0.0.1"
 }
 
-//resource "cloudflare_record" "TXT-dns-domain-google-site-verification-phpza-com" {
-//  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
-//  name = cloudflare_zone.dns-domain-phpza-com.zone
-//  type = "TXT"
-//  ttl = var.dns_site_verification_ttl
-//  proxied = "false"
-//  value = "google-site-verification=qx_RLH8nXhczOxbmh8CCGihjqzaUq-tyWNBUsb8B84I"
-//}
+resource "cloudflare_record" "TXT-dns-domain-spf1-phpza-com" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = ""
+  type = "TXT"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "v=spf1 ip4:196.50.196.145 include:_spf.google.com ~all"
+}
+
+resource "cloudflare_record" "TXT-dns-domain-dkim1-phpza-com" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = "google._domainkey"
+  type = "TXT"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn12x1ZmYbuuTAAY1jrOLEtxUlMMHdt+MYL/7RPk3NtfGBMbgXwEdLIkQ4dpGGOqce+j1dN4Aw/FAveVnk1koz37C5Y8bTX40xtdgD2sr238rOvNhs06xC3+wxQGmqUIFNHSpybadpbRrhAXwnPRwAfnEtS3IO/mpMGhjd+tv81QjP1ksm8eNnhS2kTgf1wgO9IN4Hb2Tr9N6n+yFhfSp2WEIZb4T4ht3R1LxDXXdKFqUAs34acEa6PewLTCz5MI4n+4UyRL8+W017fFBdNPgE6kSQ1v5Sff//uofskjnCOm5q8uK4wL6H0DaLDzHDPYVr3Pxpwc40u+GUk0imWFfBwIDAQAB"
+}
+
+resource "cloudflare_record" "TXT-dns-domain-google-site-verification-phpza-com" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = ""
+  type = "TXT"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "google-site-verification=z9RJbX_78sKY01HiX_fITEaijRC5UjYaVJ6MsH4ijCI"
+}

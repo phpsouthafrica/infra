@@ -1,0 +1,42 @@
+version: '3.8'
+x-default-opts:
+  &default-opts
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+services:
+  ouroboros:
+    image: pyouroboros/ouroboros
+    hostname: 'ouroboros.server'
+    environment:
+      - "TZ=${TIME_ZONE}"
+      - "INTERVAL=300"
+      - "SELF_UPDATE=true"
+      - "LOG_LEVEL=info"
+      - "CLEANUP=true"
+      - "LABEL_ENABLE=true"
+      - "NOTIFIERS=${OUROBOROS_NOTIFIERS}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/root/.docker/config.json
+    labels:
+      - "co.elastic.logs/enabled=true"
+      - "co.elastic.logs/fileset.stdout=access"
+      - "co.elastic.logs/fileset.stderr=error"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - "com.ouroboros.enable=true"
+        - "traefik.enable=false"
+    networks:
+      server-net:
+        aliases:
+          - "ouroboros.server"
+networks:
+  server-net:
+    attachable: true
+    external: true
+    driver: overlay

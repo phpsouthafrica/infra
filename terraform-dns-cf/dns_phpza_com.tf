@@ -159,3 +159,49 @@ resource "cloudflare_record" "TXT-dns-domain-google-site-verification-phpza-com"
   proxied = "false"
   value = "google-site-verification=z9RJbX_78sKY01HiX_fITEaijRC5UjYaVJ6MsH4ijCI"
 }
+
+resource "cloudflare_record" "CNAME-dns-domain-em2616" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = "em2616"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "u22398277.wl028.sendgrid.net"
+}
+
+resource "cloudflare_record" "CNAME-dns-domain-s1-domainkey" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = "s1._domainkey.phpza.com"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "s1.domainkey.u22398277.wl028.sendgrid.net"
+}
+
+resource "cloudflare_record" "CNAME-dns-domain-s2-domainkey" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = "s2._domainkey.phpza.com"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "s2.domainkey.u22398277.wl028.sendgrid.net"
+}
+
+resource "cloudflare_record" "CNAME-dns-domain-url8013" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = "url8013.phpza.com"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "sendgrid.net"
+}
+
+
+resource "cloudflare_record" "CNAME-dns-domain-22398277" {
+  zone_id = lookup(data.cloudflare_zones.dns-domain-phpza-com.zones[0], "id")
+  name = "22398277.phpza.com"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  proxied = "false"
+  value = "sendgrid.net"
+}

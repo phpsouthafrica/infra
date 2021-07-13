@@ -23,7 +23,7 @@ services:
         - "com.ouroboros.enable=true"
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-net"
-        - "traefik.http.routers.phpza.rule=Host(`${PRIMARY_DOMAIN}`) || Host(`www.${PRIMARY_DOMAIN}`) || Host(`${SECONDARY_PRIMARY_DOMAIN}`) || Host(`www.${SECONDARY_PRIMARY_DOMAIN}`)"
+        - "traefik.http.routers.phpza.rule=Host(`${PRIMARY_DOMAIN}`) || Host(`www.${PRIMARY_DOMAIN}`)"
         - "traefik.http.routers.phpza.entrypoints=websecure"
         - "traefik.http.services.phpza.loadbalancer.server.port=80"
         - "traefik.http.services.phpza.loadbalancer.passhostheader=true"

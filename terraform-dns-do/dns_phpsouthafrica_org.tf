@@ -85,21 +85,21 @@ resource "digitalocean_record" "A-dev-dns-phpsouthafrica-org" {
   value = "127.0.0.1"
 }
 
-resource "digitalocean_record" "A-dns-phpsouthafrica-org" {
-  domain = digitalocean_domain.dns-phpsouthafrica-org.name
-  name = "@"
-  type = "A"
-  ttl = var.dns_ttl
-  value = "185.199.108.153"
-}
-
-resource "digitalocean_record" "A-www-dns-phpsouthafrica-org" {
-  domain = digitalocean_domain.dns-phpsouthafrica-org.name
-  name = "www"
-  type = "A"
-  ttl = var.dns_ttl
-  value = "185.199.108.153"
-}
+//resource "digitalocean_record" "A-dns-phpsouthafrica-org" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+//  name = "@"
+//  type = "A"
+//  ttl = var.dns_ttl
+//  value = "185.199.108.153"
+//}
+//
+//resource "digitalocean_record" "A-www-dns-phpsouthafrica-org" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+//  name = "www"
+//  type = "A"
+//  ttl = var.dns_ttl
+//  value = "185.199.108.153"
+//}
 
 data "digitalocean_records" "NS-dns-phpsouthafrica-org" {
   domain = digitalocean_domain.dns-phpsouthafrica-org.name
@@ -107,4 +107,45 @@ data "digitalocean_records" "NS-dns-phpsouthafrica-org" {
     key = "type"
     values = ["NS"]
   }
+}
+
+resource "digitalocean_record" "CNAME-dns-phpsouthafrica-org-em6965" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "em6965"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  value = "u22398277.wl028.sendgrid.net."
+}
+
+resource "digitalocean_record" "CNAME-dns-phpsouthafrica-org-s1-domainkey" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "s1._domainkey"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  value = "s1.domainkey.u22398277.wl028.sendgrid.net."
+}
+
+resource "digitalocean_record" "CNAME-dns-phpsouthafrica-org-s2-domainkey" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "s2._domainkey"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  value = "s2.domainkey.u22398277.wl028.sendgrid.net."
+}
+
+resource "digitalocean_record" "CNAME-dns-phpsouthafrica-org-url7137" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "url7137"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  value = "sendgrid.net."
+}
+
+
+resource "digitalocean_record" "CNAME-dns-phpsouthafrica-org-22398277" {
+  domain = digitalocean_domain.dns-phpsouthafrica-org.name
+  name = "22398277"
+  type = "CNAME"
+  ttl = var.dns_site_verification_ttl
+  value = "sendgrid.net."
 }

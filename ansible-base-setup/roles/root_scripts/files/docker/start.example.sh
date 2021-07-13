@@ -3,10 +3,10 @@ cd /root/docker/ || exit
 
 ./setUpNetwork.sh
 
-export PRIMARY_DOMAIN='phpza.com'
-export SECONDARY_PRIMARY_DOMAIN='phpafrica.com'
+export PRIMARY_DOMAIN='phpsouthafrica.org'
 
 export CF_DNS_API_TOKEN=''
+export DIGITALOCEAN_TOKEN=''
 export WP_MYSQL_PROD_MASTER_PASSWORD=''
 export WP_MYSQL_PROD_MASTER_ROOT_PASSWORD=''
 export OUROBOROS_NOTIFIERS=""

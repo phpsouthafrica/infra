@@ -12,6 +12,7 @@ services:
     environment:
       - "TZ=${TIME_ZONE}"
       - "CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}"
+      - "DO_AUTH_TOKEN=${DIGITALOCEAN_TOKEN}"
     command:
       - "--api"
       - "--providers.docker"
@@ -32,10 +33,10 @@ services:
         103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,141.101.107.0/24,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,
         198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,
         2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
-      - "--certificatesresolvers.le.acme.email=acme@entrygeek.com"
+      - "--certificatesresolvers.le.acme.email=acme@phpsouthafrica.org"
       - "--certificatesresolvers.le.acme.dnschallenge=true"
-      - "--certificatesresolvers.le.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider=digitalocean"
+#      - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=10"
       - "--certificatesresolvers.le.acme.storage=/acme.json"
       - "--providers.docker.exposedbydefault=false"
@@ -77,8 +78,6 @@ services:
         - "traefik.http.routers.traefik.tls.certresolver=le"
         - "traefik.http.routers.traefik.tls.domains[0].main=${PRIMARY_DOMAIN}"
         - "traefik.http.routers.traefik.tls.domains[0].sans=*.${PRIMARY_DOMAIN}"
-        - "traefik.http.routers.traefik.tls.domains[0].sans=${SECONDARY_PRIMARY_DOMAIN}"
-        - "traefik.http.routers.traefik.tls.domains[0].sans=*.${SECONDARY_PRIMARY_DOMAIN}"
 
         - "traefik.http.routers.traefik.middlewares=traefik-auth, traefik-compress"
         - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_USER}:${TRAEFIK_BASIC_PASSWORD}"

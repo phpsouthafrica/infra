@@ -17,6 +17,11 @@ variable "dns_domain_phpafrica_com" {
   default = "phpafrica.com"
 }
 
+variable "dns_domain_phpsouthafrica_org" {
+  description = "phpsouthafrica.org Domains for php meetup"
+  default = "phpsouthafrica.org"
+}
+
 variable "dns_mx_ttl" {
   default = "900"
 }

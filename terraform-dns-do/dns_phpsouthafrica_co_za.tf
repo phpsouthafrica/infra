@@ -103,21 +103,21 @@ resource "digitalocean_record" "A-dev-dns-phpsouthafrica-co-za" {
   value = "127.0.0.1"
 }
 
-resource "digitalocean_record" "A-dns-phpsouthafrica-co-za" {
-  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
-  name = "@"
-  type = "A"
-  ttl = var.dns_ttl
-  value = "185.199.108.153"
-}
-
-resource "digitalocean_record" "A-www-dns-phpsouthafrica-co-za" {
-  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
-  name = "www"
-  type = "A"
-  ttl = var.dns_ttl
-  value = "185.199.108.153"
-}
+//resource "digitalocean_record" "A-dns-phpsouthafrica-co-za" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
+//  name = "@"
+//  type = "A"
+//  ttl = var.dns_ttl
+//  value = "185.199.108.153"
+//}
+//
+//resource "digitalocean_record" "A-www-dns-phpsouthafrica-co-za" {
+//  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name
+//  name = "www"
+//  type = "A"
+//  ttl = var.dns_ttl
+//  value = "185.199.108.153"
+//}
 
 //resource "digitalocean_record" "AAAA-dns-phpsouthafrica-co-za" {
 //  domain = digitalocean_domain.dns-phpsouthafrica-co-za.name

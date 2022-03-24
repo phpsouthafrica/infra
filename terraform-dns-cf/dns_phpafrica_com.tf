@@ -139,7 +139,7 @@ resource "cloudflare_record" "TXT-dns-domain-spf1-phpafrica-com" {
   type = "TXT"
   ttl = var.dns_site_verification_ttl
   proxied = "false"
-  value = "v=spf1 ip4:196.50.196.145 include:_spf.google.com ~all"
+  value = "v=spf1 ip4:165.73.55.36 include:_spf.google.com ~all"
 }
 
 resource "cloudflare_record" "TXT-dns-domain-dkim1-phpafrica-com" {

@@ -76,7 +76,7 @@ resource "digitalocean_record" "MX-aspmx2-dns-phpsouthafrica-co-za" {
 //  name     = "@"
 //  type = "TXT"
 //  ttl = var.dns_mx_ttl
-//  value = "v=spf1 ip4:196.50.196.145 include:_spf.google.com ~all"
+//  value = "v=spf1 ip4:165.73.55.36 include:_spf.google.com ~all"
 //}
 //
 //resource "digitalocean_record" "TXT-dns-phpsouthafrica-co-za-google-site-verification" {
